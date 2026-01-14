@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cloud File Manager - Advanced file management system with upload, download, editing capabilities">
+    <meta name="keywords" content="cloud storage, file manager, upload, download, file editor, cloud storage">
+    <meta name="author" content="SuperNinja AI">
+    <meta name="robots" content="index, follow">
+    <title>Cloud File Manager - Advanced Cloud Storage Solution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004499;
+            --accent-color: #ff9900;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        /* Login Page Styles */
+        #login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .login-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .login-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Main Dashboard Styles */
+        #dashboard {
+            display: none;
+            min-height: 100vh;
+            background: var(--light-bg);
+        }
+
+        .header {
+            background: var(--dark-bg);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .header-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .header-button:hover {
+            background: var(--secondary-color);
+        }
+
+        .header-button.logout {
+            background: var(--danger-color);
+        }
+
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-item:hover {
+            background: var(--light-bg);
+        }
+
+        .sidebar-item.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-button {
+            background: white;
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .toolbar-button:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .upload-area {
+            border: 3px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: #f0f7ff;
+        }
+
+        .upload-area.dragover {
+            border-color: var(--primary-color);
+            background: #e6f2ff;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .file-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .file-card.selected {
+            border: 2px solid var(--primary-color);
+        }
+
+        .file-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .file-icon.folder {
+            background: #ffd700;
+        }
+
+        .file-icon.image {
+            background: #4caf50;
+        }
+
+        .file-icon.video {
+            background: #f44336;
+        }
+
+        .file-icon.audio {
+            background: #9c27b0;
+        }
+
+        .file-icon.document {
+            background: #2196f3;
+        }
+
+        .file-icon.archive {
+            background: #ff9800;
+        }
+
+        .file-name {
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            word-break: break-word;
+        }
+
+        .file-size {
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .breadcrumb-item {
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        .breadcrumb-item:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            color: #999;
+        }
+
+        /* Editor Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-body {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .editor-textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        /* Terminal Styles */
+        .terminal-container {
+            background: #1a1a2e;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .terminal-header {
+            background: #0f0f1a;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            color: #4caf50;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .terminal-body {
+            padding: 15px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .terminal-line {
+            margin-bottom: 5px;
+            color: #4caf50;
+        }
+
+        .terminal-line.error {
+            color: #f44336;
+        }
+
+        .terminal-line.warning {
+            color: #ff9800;
+        }
+
+        .terminal-line.info {
+            color: #2196f3;
+        }
+
+        /* Network Monitor */
+        .network-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-unit {
+            font-size: 14px;
+            color: #999;
+            margin-left: 5px;
+        }
+
+        /* Context Menu */
+        .context-menu {
+            display: none;
+            position: fixed;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            min-width: 200px;
+        }
+
+        .context-menu.active {
+            display: block;
+        }
+
+        .context-menu-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .context-menu-item:hover {
+            background: var(--light-bg);
+        }
+
+        .context-menu-divider {
+            border-top: 1px solid var(--border-color);
+            margin: 5px 0;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .file-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .toolbar-button {
+                width: 100%;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header,
+            .sidebar,
+            .toolbar,
+            .terminal-container {
+                display: none;
+            }
+
+            .content {
+                padding: 0;
+            }
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="login-page">
+        <div class="login-container">
+            <div class="login-logo">☁️</div>
+            <h1 class="login-title">Cloud File Manager</h1>
+            <p class="login-subtitle">Advanced Cloud Storage Solution</p>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-button">Login</button>
+            </form>
+            <p style="margin-top: 20px; font-size: 12px; color: #999;">Admin Access Only</p>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">☁️</div>
+                <span>Cloud File Manager</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-button" onclick="showNetworkMonitor()">📊 Network</button>
+                <button class="header-button" onclick="showTerminal()">💻 Terminal</button>
+                <button class="header-button" onclick="showSettings()">⚙️ Settings</button>
+                <button class="header-button logout" onclick="logout()">🚪 Logout</button>
+            </div>
+        </header>
+
+        <div class="main-container">
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Quick Actions</div>
+                    <div class="sidebar-item active" onclick="navigateTo('home')">🏠 Home</div>
+                    <div class="sidebar-item" onclick="navigateTo('files')">📁 My Files</div>
+                    <div class="sidebar-item" onclick="navigateTo('shared')">🔗 Shared</div>
+                    <div class="sidebar-item" onclick="navigateTo('recent')">🕐 Recent</div>
+                    <div class="sidebar-item" onclick="navigateTo('trash')">🗑️ Trash</div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Storage</div>
+                    <div class="sidebar-item">💾 Used: <span id="storageUsed">0 GB</span></div>
+                    <div class="sidebar-item">📊 Total: <span id="storageTotal">1 GB</span></div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Account</div>
+                    <div class="sidebar-item">👤 <span id="currentUser">Admin</span></div>
+                    <div class="sidebar-item">🔒 Private Access</div>
+                </div>
+            </aside>
+
+            <main class="content">
+                <div class="toolbar">
+                    <button class="toolbar-button" onclick="triggerUpload()">📤 Upload</button>
+                    <button class="toolbar-button" onclick="createFolder()">📁 New Folder</button>
+                    <button class="toolbar-button" onclick="downloadSelected()">⬇️ Download</button>
+                    <button class="toolbar-button" onclick="copySelected()">📋 Copy</button>
+                    <button class="toolbar-button" onclick="pasteFiles()">📝 Paste</button>
+                    <button class="toolbar-button" onclick="deleteSelected()">🗑️ Delete</button>
+                    <button class="toolbar-button" onclick="refreshFiles()">🔄 Refresh</button>
+                    <button class="toolbar-button" onclick="selectAll()">☑️ Select All</button>
+                </div>
+
+                <div class="breadcrumb" id="breadcrumb">
+                    <div class="breadcrumb-item" onclick="navigateToPath('/')">Home</div>
+                </div>
+
+                <div class="upload-area" id="uploadArea" onclick="triggerUpload()">
+                    <div style="font-size: 50px; margin-bottom: 10px;">☁️</div>
+                    <h3>Drag & Drop files here</h3>
+                    <p style="color: #999;">or click to browse (Max 1GB per file)</p>
+                    <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileSelect(event)">
+                </div>
+
+                <div class="file-grid" id="fileGrid">
+                    <!-- Files will be dynamically added here -->
+                </div>
+
+                <!-- Terminal Section -->
+                <div class="terminal-container" id="terminalContainer" style="display: none;">
+                    <div class="terminal-header">
+                        <span class="terminal-title">🖥️ Cloud Terminal - Network Monitor</span>
+                        <button onclick="hideTerminal()" style="background: none; border: none; color: #4caf50; cursor: pointer; font-size: 18px;">✕</button>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="terminal-line info">[SYSTEM] Cloud File Manager Terminal v1.0</div>
+                        <div class="terminal-line info">[SYSTEM] Initializing network monitoring...</div>
+                    </div>
+                </div>
+
+                <!-- Network Monitor Section -->
+                <div id="networkMonitor" style="display: none;">
+                    <h2 style="margin-bottom: 20px;">📊 Network Monitoring Dashboard</h2>
+                    <div class="network-stats">
+                        <div class="stat-card">
+                            <div class="stat-title">Upload Speed</div>
+                            <div class="stat-value" id="uploadSpeed">0</div>
+                            <span class="stat-unit">MB/s</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Download Speed</div>
+                            <div class="stat-value" id="downloadSpeed">0</div>
+                            <span class="stat-unit">MB/s</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Active Users</div>
+                            <div class="stat-value" id="activeUsers">1</div>
+                            <span class="stat-unit">User</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Network Status</div>
+                            <div class="stat-value" style="color: #28a745;">Online</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- File Editor Modal -->
+    <div class="modal" id="editorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="editorTitle">File Editor</h2>
+                <button class="modal-close" onclick="closeEditor()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="editor-toolbar">
+                    <button class="toolbar-button" onclick="saveFile()">💾 Save</button>
+                    <button class="toolbar-button" onclick="saveAsFile()">💾 Save As</button>
+                    <button class="toolbar-button" onclick="newFile()">📄 New</button>
+                    <button class="toolbar-button" onclick="formatCode()">✨ Format</button>
+                </div>
+                <textarea class="editor-textarea" id="editorContent" spellcheck="false"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="openFile()">📂 Open</div>
+        <div class="context-menu-item" onclick="editFile()">✏️ Edit</div>
+        <div class="context-menu-item" onclick="downloadFile()">⬇️ Download</div>
+        <div class="context-menu-item" onclick="copyFile()">📋 Copy</div>
+        <div class="context-menu-item" onclick="pasteFile()">📝 Paste</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="renameFile()">🏷️ Rename</div>
+        <div class="context-menu-item" onclick="deleteFile()">🗑️ Delete</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="shareFile()">🔗 Share</div>
+        <div class="context-menu-item" onclick="viewProperties()">📋 Properties</div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // ==================== GLOBAL VARIABLES ====================
+        let fileSystem = {
+            '/': {
+                type: 'folder',
+                name: 'Root',
+                children: {}
+            }
+        };
+        let currentPath = '/';
+        let selectedFiles = [];
+        let clipboard = {
+            files: [],
+            operation: null
+        };
+        let currentFile = null;
+        let isLoggedIn = false;
+        let networkMonitorInterval = null;
+
+        // ==================== LOGIN SYSTEM ====================
+        const ADMIN_CREDENTIALS = {
+            username: 'olawale abdul-ganiyu',
+            password: 'admin123'
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.toLowerCase().trim();
+            const password = document.getElementById('password').value;
+
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                login();
+            } else {
+                alert('Invalid credentials! Access denied.');
+                addTerminalMessage('Login failed: Invalid credentials', 'error');
+            }
+        });
+
+        function login() {
+            isLoggedIn = true;
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('currentUser').textContent = 'olawale abdul-ganiyu';
+            addTerminalMessage('User olawale abdul-ganiyu logged in successfully', 'info');
+            addTerminalMessage('Admin access granted', 'success');
+            initializeFileSystem();
+            updateStorageDisplay();
+            startNetworkMonitor();
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('login-page').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            addTerminalMessage('User logged out', 'info');
+            stopNetworkMonitor();
+        }
+
+        // ==================== FILE SYSTEM ====================
+        function initializeFileSystem() {
+            // Create default folders
+            createFolderByPath('/Documents');
+            createFolderByPath('/Images');
+            createFolderByPath('/Videos');
+            createFolderByPath('/Audio');
+            createFolderByPath('/Archives');
+            createSampleFiles();
+            renderFiles();
+        }
+
+        function createFolderByPath(path) {
+            const parts = path.split('/').filter(p => p);
+            let current = fileSystem['/'];
+            
+            for (let part of parts) {
+                if (!current.children[part]) {
+                    current.children[part] = {
+                        type: 'folder',
+                        name: part,
+                        children: {},
+                        created: new Date().toISOString()
+                    };
+                }
+                current = current.children[part];
+            }
+        }
+
+        function createSampleFiles() {
+            // Create sample files for demonstration
+            const sampleFiles = [
+                { name: 'index.html', path: '/Documents/', content: '<!DOCTYPE html>\n<html>\n<head>\n    <title>Sample HTML</title>\n<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>\n<body>\n    <h1>Hello World</h1>\n</body>\n</html>', type: 'document' },
+                { name: 'style.css', path: '/Documents/', content: 'body {\n    font-family: Arial, sans-serif;\n    background-color: #f0f0f0;\n}', type: 'document' },
+                { name: 'script.js', path: '/Documents/', content: 'console.log("Hello, World!");\n\nfunction greet() {\n    return "Welcome to Cloud File Manager";\n}', type: 'document' },
+                { name: 'readme.txt', path: '/Documents/', content: 'Cloud File Manager v1.0\n\nFeatures:\n- Upload/Download files\n- Edit documents\n- Manage folders\n- Network monitoring\n\nAdmin: olawale abdul-ganiyu', type: 'document' }
+            ];
+
+            sampleFiles.forEach(file => {
+                createFile(file.path + file.name, file.content, file.type);
+            });
+        }
+
+        function createFile(path, content, type = 'document') {
+            const parts = path.split('/').filter(p => p);
+            const fileName = parts.pop();
+            let current = fileSystem['/'];
+
+            for (let part of parts) {
+                if (!current.children[part]) {
+                    current.children[part] = {
+                        type: 'folder',
+                        name: part,
+                        children: {},
+                        created: new Date().toISOString()
+                    };
+                }
+                current = current.children[part];
+            }
+
+            current.children[fileName] = {
+                type: type,
+                name: fileName,
+                content: content,
+                size: content ? content.length : 0,
+                created: new Date().toISOString(),
+                modified: new Date().toISOString()
+            };
+
+            addTerminalMessage(`File created: ${path}`, 'success');
+            return true;
+        }
+
+        function getFileByPath(path) {
+            const parts = path.split('/').filter(p => p);
+            let current = fileSystem['/'];
+
+            for (let part of parts) {
+                if (!current.children[part]) {
+                    return null;
+                }
+                current = current.children[part];
+            }
+
+            return current;
+        }
+
+        // ==================== FILE OPERATIONS ====================
+        function renderFiles() {
+            const grid = document.getElementById('fileGrid');
+            grid.innerHTML = '';
+
+            const folder = getFileByPath(currentPath);
+            if (!folder) return;
+
+            const files = Object.values(folder.children).sort((a, b) => {
+                if (a.type === 'folder' && b.type !== 'folder') return -1;
+                if (a.type !== 'folder' && b.type === 'folder') return 1;
+                return a.name.localeCompare(b.name);
+            });
+
+            files.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'file-card';
+                card.dataset.path = currentPath + file.name;
+                card.onclick = () => selectFile(card);
+                card.ondblclick = () => openFileByPath(file);
+                card.oncontextmenu = (e) => showContextMenu(e, file);
+
+                const icon = getFileIcon(file);
+                const size = formatFileSize(file.size);
+
+                card.innerHTML = `
+                    <div class="file-icon ${file.type}">${icon}</div>
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-size">${file.type === 'folder' ? 'Folder' : size}</div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            updateBreadcrumb();
+        }
+
+        function getFileIcon(file) {
+            const icons = {
+                folder: '📁',
+                image: '🖼️',
+                video: '🎬',
+                audio: '🎵',
+                document: '📄',
+                archive: '📦'
+            };
+            return icons[file.type] || '📄';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        function selectFile(card) {
+            card.classList.toggle('selected');
+            const path = card.dataset.path;
+            
+            if (card.classList.contains('selected')) {
+                if (!selectedFiles.includes(path)) {
+                    selectedFiles.push(path);
+                }
+            } else {
+                selectedFiles = selectedFiles.filter(p => p !== path);
+            }
+        }
+
+        function openFileByPath(file) {
+            if (file.type === 'folder') {
+                currentPath = currentPath + file.name + '/';
+                renderFiles();
+                addTerminalMessage(`Navigated to: ${currentPath}`, 'info');
+            } else {
+                editFileContent(file);
+            }
+        }
+
+        function navigateToPath(path) {
+            currentPath = path === '/' ? '/' : path;
+            if (!currentPath.endsWith('/')) {
+                currentPath += '/';
+            }
+            renderFiles();
+        }
+
+        function updateBreadcrumb() {
+            const breadcrumb = document.getElementById('breadcrumb');
+            const parts = currentPath.split('/').filter(p => p);
+            
+            let html = '<div class="breadcrumb-item" onclick="navigateToPath(\'/\')">Home</div>';
+            
+            let path = '';
+            parts.forEach((part, index) => {
+                path += part + '/';
+                html += '<div class="breadcrumb-separator">/</div>';
+                html += `<div class="breadcrumb-item" onclick="navigateToPath('${path}')">${part}</div>`;
+            });
+
+            breadcrumb.innerHTML = html;
+        }
+
+        // ==================== UPLOAD & DOWNLOAD ====================
+        function triggerUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            processFiles(files);
+        }
+
+        function processFiles(files) {
+            showLoading();
+
+            Array.from(files).forEach(file => {
+                if (file.size > 1024 * 1024 * 1024) {
+                    alert(`File ${file.name} is too large (max 1GB)`);
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    const fileType = getFileType(file);
+                    
+                    createFile(currentPath + file.name, content, fileType);
+                    addTerminalMessage(`Uploaded: ${file.name} (${formatFileSize(file.size)})`, 'success');
+                    renderFiles();
+                    updateStorageDisplay();
+                };
+                reader.readAsText(file);
+            });
+
+            setTimeout(hideLoading, 1000);
+        }
+
+        function getFileType(file) {
+            const types = {
+                'image/': 'image',
+                'video/': 'video',
+                'audio/': 'audio',
+                'application/zip': 'archive',
+                'application/x-zip-compressed': 'archive',
+                'application/pdf': 'document'
+            };
+
+            for (let type in types) {
+                if (file.type.startsWith(type)) {
+                    return types[type];
+                }
+            }
+            return 'document';
+        }
+
+        function downloadFile() {
+            if (selectedFiles.length === 0) {
+                alert('Please select a file to download');
+                return;
+            }
+
+            selectedFiles.forEach(path => {
+                const file = getFileByPath(path);
+                if (file && file.type !== 'folder') {
+                    const blob = new Blob([file.content], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = file.name;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    addTerminalMessage(`Downloaded: ${file.name}`, 'success');
+                }
+            });
+        }
+
+        function downloadSelected() {
+            downloadFile();
+        }
+
+        // ==================== FILE EDITING ====================
+        function editFileContent(file) {
+            const modal = document.getElementById('editorModal');
+            const title = document.getElementById('editorTitle');
+            const content = document.getElementById('editorContent');
+
+            title.textContent = `Editing: ${file.name}`;
+            content.value = file.content || '';
+            currentFile = file;
+
+            modal.classList.add('active');
+            addTerminalMessage(`Opened editor for: ${file.name}`, 'info');
+        }
+
+        function closeEditor() {
+            document.getElementById('editorModal').classList.remove('active');
+            currentFile = null;
+        }
+
+        function saveFile() {
+            if (!currentFile) return;
+
+            const content = document.getElementById('editorContent').value;
+            currentFile.content = content;
+            currentFile.size = content.length;
+            currentFile.modified = new Date().toISOString();
+
+            addTerminalMessage(`Saved: ${currentFile.name}`, 'success');
+            alert('File saved successfully!');
+            renderFiles();
+        }
+
+        function saveAsFile() {
+            const newFileName = prompt('Enter new file name:');
+            if (!newFileName) return;
+
+            const content = document.getElementById('editorContent').value;
+            createFile(currentPath + newFileName, content, currentFile.type);
+            renderFiles();
+            addTerminalMessage(`File saved as: ${newFileName}`, 'success');
+        }
+
+        function newFile() {
+            const fileName = prompt('Enter file name:');
+            if (!fileName) return;
+
+            createFile(currentPath + fileName, '', 'document');
+            renderFiles();
+            addTerminalMessage(`Created new file: ${fileName}`, 'success');
+        }
+
+        function formatCode() {
+            const textarea = document.getElementById('editorContent');
+            let code = textarea.value;
+            
+            // Basic formatting - simple indentation
+            try {
+                const lines = code.split('\n');
+                let formatted = '';
+                let indent = 0;
+
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (trimmed.endsWith('{') || trimmed.endsWith(':')) {
+                        formatted += '    '.repeat(indent) + trimmed + '\n';
+                        indent++;
+                    } else if (trimmed.startsWith('}') || trimmed.startsWith(']')) {
+                        indent--;
+                        formatted += '    '.repeat(Math.max(0, indent)) + trimmed + '\n';
+                    } else {
+                        formatted += '    '.repeat(indent) + trimmed + '\n';
+                    }
+                });
+
+                textarea.value = formatted.trim();
+                addTerminalMessage('Code formatted', 'info');
+            } catch (e) {
+                addTerminalMessage('Format error: ' + e.message, 'error');
+            }
+        }
+
+        function editFile() {
+            if (selectedFiles.length === 0) return;
+            
+            const path = selectedFiles[0];
+            const file = getFileByPath(path);
+            
+            if (file && file.type !== 'folder') {
+                editFileContent(file);
+            }
+        }
+
+        // ==================== FOLDER OPERATIONS ====================
+        function createFolder() {
+            const folderName = prompt('Enter folder name:');
+            if (!folderName) return;
+
+            createFolderByPath(currentPath + folderName);
+            renderFiles();
+            addTerminalMessage(`Folder created: ${folderName}`, 'success');
+        }
+
+        // ==================== COPY & PASTE ====================
+        function copySelected() {
+            clipboard.files = [...selectedFiles];
+            clipboard.operation = 'copy';
+            addTerminalMessage(`Copied ${selectedFiles.length} item(s) to clipboard`, 'info');
+        }
+
+        function copyFile() {
+            copySelected();
+        }
+
+        function pasteFiles() {
+            if (clipboard.files.length === 0) {
+                alert('Clipboard is empty');
+                return;
+            }
+
+            clipboard.files.forEach(path => {
+                const file = getFileByPath(path);
+                if (file) {
+                    const newName = file.name;
+                    const newPath = currentPath + newName;
+                    
+                    if (file.type === 'folder') {
+                        createFolderByPath(newPath);
+                    } else {
+                        createFile(newPath, file.content, file.type);
+                    }
+                }
+            });
+
+            renderFiles();
+            addTerminalMessage(`Pasted ${clipboard.files.length} item(s)`, 'success');
+        }
+
+        function pasteFile() {
+            pasteFiles();
+        }
+
+        // ==================== DELETE ====================
+        function deleteSelected() {
+            if (selectedFiles.length === 0) {
+                alert('Please select files to delete');
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to delete ${selectedFiles.length} item(s)?`)) {
+                return;
+            }
+
+            selectedFiles.forEach(path => {
+                const parts = path.split('/').filter(p => p);
+                const fileName = parts.pop();
+                let current = fileSystem['/'];
+
+                for (let part of parts) {
+                    if (current.children[part]) {
+                        current = current.children[part];
+                    }
+                }
+
+                if (current.children[fileName]) {
+                    delete current.children[fileName];
+                    addTerminalMessage(`Deleted: ${fileName}`, 'warning');
+                }
+            });
+
+            selectedFiles = [];
+            renderFiles();
+            updateStorageDisplay();
+        }
+
+        function deleteFile() {
+            deleteSelected();
+        }
+
+        // ==================== CONTEXT MENU ====================
+        function showContextMenu(event, file) {
+            event.preventDefault();
+            
+            currentFile = file;
+            const menu = document.getElementById('contextMenu');
+            menu.style.left = event.pageX + 'px';
+            menu.style.top = event.pageY + 'px';
+            menu.classList.add('active');
+        }
+
+        document.addEventListener('click', function() {
+            document.getElementById('contextMenu').classList.remove('active');
+        });
+
+        function openFile() {
+            if (currentFile) {
+                openFileByPath(currentFile);
+            }
+        }
+
+        function renameFile() {
+            if (!currentFile) return;
+
+            const newName = prompt('Enter new name:', currentFile.name);
+            if (!newName || newName === currentFile.name) return;
+
+            const parts = currentPath.split('/').filter(p => p);
+            let current = fileSystem['/'];
+
+            for (let part of parts) {
+                if (current.children[part]) {
+                    current = current.children[part];
+                }
+            }
+
+            if (current.children[currentFile.name]) {
+                current.children[newName] = current.children[currentFile.name];
+                delete current.children[currentFile.name];
+                current.children[newName].name = newName;
+            }
+
+            renderFiles();
+            addTerminalMessage(`Renamed to: ${newName}`, 'success');
+        }
+
+        function shareFile() {
+            if (!currentFile) return;
+            
+            const shareUrl = `https://cloudfilemanager.com/share/${currentPath}${currentFile.name}`;
+            prompt('Share link:', shareUrl);
+            addTerminalMessage(`Share link generated for: ${currentFile.name}`, 'info');
+        }
+
+        function viewProperties() {
+            if (!currentFile) return;
+
+            const properties = `
+Name: ${currentFile.name}
+Type: ${currentFile.type}
+Size: ${formatFileSize(currentFile.size)}
+Created: ${new Date(currentFile.created).toLocaleString()}
+Modified: ${new Date(currentFile.modified).toLocaleString()}
+            `;
+
+            alert(properties.trim());
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function refreshFiles() {
+            renderFiles();
+            addTerminalMessage('File list refreshed', 'info');
+        }
+
+        function selectAll() {
+            const cards = document.querySelectorAll('.file-card');
+            cards.forEach(card => {
+                card.classList.add('selected');
+                const path = card.dataset.path;
+                if (!selectedFiles.includes(path)) {
+                    selectedFiles.push(path);
+                }
+            });
+            addTerminalMessage(`Selected all files (${selectedFiles.length})`, 'info');
+        }
+
+        function navigateTo(section) {
+            const items = document.querySelectorAll('.sidebar-item');
+            items.forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+
+            switch(section) {
+                case 'home':
+                    currentPath = '/';
+                    renderFiles();
+                    break;
+                case 'files':
+                    currentPath = '/';
+                    renderFiles();
+                    break;
+                case 'shared':
+                    alert('Shared files feature - Coming soon!');
+                    break;
+                case 'recent':
+                    alert('Recent files feature - Coming soon!');
+                    break;
+                case 'trash':
+                    alert('Trash feature - Coming soon!');
+                    break;
+            }
+        }
+
+        function updateStorageDisplay() {
+            let totalSize = 0;
+            
+            function calculateSize(folder) {
+                Object.values(folder.children).forEach(child => {
+                    if (child.type === 'folder') {
+                        calculateSize(child);
+                    } else {
+                        totalSize += child.size || 0;
+                    }
+                });
+            }
+
+            calculateSize(fileSystem['/']);
+            
+            document.getElementById('storageUsed').textContent = formatFileSize(totalSize);
+        }
+
+        function showLoading() {
+            document.getElementById('loading').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('active');
+        }
+
+        // ==================== TERMINAL ====================
+        function showTerminal() {
+            document.getElementById('terminalContainer').style.display = 'block';
+            document.getElementById('networkMonitor').style.display = 'none';
+            addTerminalMessage('Terminal opened', 'info');
+        }
+
+        function hideTerminal() {
+            document.getElementById('terminalContainer').style.display = 'none';
+        }
+
+        function addTerminalMessage(message, type = 'info') {
+            const terminal = document.getElementById('terminalBody');
+            const line = document.createElement('div');
+            line.className = `terminal-line ${type}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            line.textContent = `[${timestamp}] ${message}`;
+            
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // ==================== NETWORK MONITORING ====================
+        function showNetworkMonitor() {
+            document.getElementById('networkMonitor').style.display = 'block';
+            document.getElementById('terminalContainer').style.display = 'none';
+            addTerminalMessage('Network monitor opened', 'info');
+        }
+
+        function startNetworkMonitor() {
+            // Simulate network monitoring
+            networkMonitorInterval = setInterval(() => {
+                const uploadSpeed = (Math.random() * 10).toFixed(2);
+                const downloadSpeed = (Math.random() * 50).toFixed(2);
+                
+                document.getElementById('uploadSpeed').textContent = uploadSpeed;
+                document.getElementById('downloadSpeed').textContent = downloadSpeed;
+                
+                addTerminalMessage(`Network stats - Up: ${uploadSpeed} MB/s, Down: ${downloadSpeed} MB/s`, 'info');
+            }, 5000);
+        }
+
+        function stopNetworkMonitor() {
+            if (networkMonitorInterval) {
+                clearInterval(networkMonitorInterval);
+                networkMonitorInterval = null;
+            }
+        }
+
+        function showSettings() {
+            alert('Settings panel - Coming soon!');
+        }
+
+        // ==================== DRAG AND DROP ====================
+        const uploadArea = document.getElementById('uploadArea');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            processFiles(files);
+        });
+
+        // ==================== KEYBOARD SHORTCUTS ====================
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 's':
+                        e.preventDefault();
+                        if (document.getElementById('editorModal').classList.contains('active')) {
+                            saveFile();
+                        }
+                        break;
+                    case 'o':
+                        e.preventDefault();
+                        triggerUpload();
+                        break;
+                    case 'n':
+                        e.preventDefault();
+                        newFile();
+                        break;
+                }
+            }
+        });
+
+        // ==================== INITIALIZATION ====================
+        window.onload = function() {
+            addTerminalMessage('Cloud File Manager initialized', 'info');
+            addTerminalMessage('Ready for admin login', 'info');
+            addTerminalMessage('Waiting for authentication...', 'warning');
+        };
+    </script>
+</body>
+</html>

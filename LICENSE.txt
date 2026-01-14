@@ -1,0 +1,93 @@
+CLOUD FILE MANAGER - LICENSE AGREEMENT
+
+Copyright (c) 2024 SuperNinja AI. All rights reserved.
+
+This software is licensed, not sold. By using this software, you agree to 
+the terms of this license agreement.
+
+1. GRANT OF LICENSE
+
+SuperNinja AI grants you a perpetual, worldwide, non-exclusive, no-charge, 
+royalty-free, irrevocable copyright license to reproduce, prepare derivative 
+works of, publicly display, publicly perform, sublicense, and distribute the 
+Software and such derivative works in source or object form.
+
+2. CONDITIONS
+
+The above copyright notice and this permission notice shall be included in 
+all copies or substantial portions of the Software.
+
+3. DISCLAIMER OF WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+THE SOFTWARE.
+
+4. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL SUPER NINJA AI BE LIABLE FOR ANY DIRECT, INDIRECT, 
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+5. INTELLECTUAL PROPERTY
+
+All intellectual property rights in the Software and any modifications or 
+derivative works thereof shall remain with SuperNinja AI. You acquire no 
+rights, express or implied, except those expressly granted in this License.
+
+6. USER DATA AND PRIVACY
+
+The user is solely responsible for any data uploaded, stored, or processed 
+through this software. SuperNinja AI assumes no responsibility for data loss, 
+corruption, or unauthorized access.
+
+7. COMPLIANCE
+
+This software is designed to be compliant with Government of America (GoA) 
+standards. However, the user is responsible for ensuring compliance with 
+all applicable laws and regulations in their jurisdiction.
+
+8. SUPPORT AND UPDATES
+
+SuperNinja AI may provide support and updates to the Software at its sole 
+discretion. No commitment is made regarding the timing, frequency, or nature 
+of any updates or support.
+
+9. TERMINATION
+
+This License is effective until terminated. Your rights under this License 
+will terminate automatically without notice if you fail to comply with any 
+of its terms. Upon termination, you must cease all use of the Software and 
+destroy all copies.
+
+10. MISCELLANEOUS
+
+This License constitutes the entire agreement between you and SuperNinja AI 
+regarding the Software and supersedes all prior agreements and understandings.
+
+11. CONTACT INFORMATION
+
+For questions regarding this License or the Software, please contact:
+
+SuperNinja AI
+Email: support@superninja.ai
+Website: www.superninja.ai
+
+12. VERSION HISTORY
+
+Version 1.0.0 - Initial Release
+- Complete file management system
+- Admin authentication
+- Network monitoring
+- Built-in editor
+- Archive support
+
+END OF LICENSE AGREEMENT
